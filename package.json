@@ -1,0 +1,20 @@
+{
+    "name": "installer",
+    "version": "1.0.0",
+    "description": "",
+    "main": "Main.js",
+    "scripts": {
+        "build": "electron-builder build",
+        "start": "electron ."
+    },
+    "keywords": [],
+    "author": "",
+    "license": "",
+    "devDependencies": {
+        "electron": "^16.0.7",
+        "electron-builder": "^22.14.5"
+    },
+    "dependencies": {
+        "jquery": "^3.6.0"
+    }
+}

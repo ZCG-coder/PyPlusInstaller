@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+<div class="title_bar">Install PyPlus</div>
+<script id="event-handle">
+    const ipc = require("electron").ipcRenderer;
+    const $ = require("jquery");
+
+    function next() {
+        ipc.send("invokeAction", "next");
+    }
+
+    $(window).blur(() => {
+            $(".title_bar").css({color: "gray"});
+        }
+    );
+
+    $(window).focus(() => {
+        $(".title_bar").css({color: "darkgray"});
+    });
+</script>
+<img alt="Logo" src="logo.gif">
+<section class="desc">
+    <h1 id="welcome">Welcome to PyPlus Installer!</h1>
+    PyPlus is a multipurpose editor, licensed under the GPL License. <br>
+    Please ensure that you have the following tools installed:
+    <ul>
+        <li>Node.js</li>
+        <li>Python 3</li>
+    </ul>
+    Please press Continue if you would like to install.<br>
+</section>
+<div class="button_container">
+    <button id="next" onclick="next();">Continue</button>
+</div>
+</body>
+</html>

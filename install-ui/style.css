@@ -1,0 +1,75 @@
+:not(input):not(textarea),
+:not(input):not(textarea)::after,
+:not(input):not(textarea)::before {
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+
+.title_bar {
+    position: fixed;
+    top: 0;
+    margin-left: -5px;
+    margin-top: 0;
+    -webkit-app-region: drag;
+    padding: 6px 0 6px 0;
+
+
+    text-align: center;
+    color: #888888;
+    background: #323536;
+
+    height: 18px;
+    font-size: 15px;
+    font-family: system-ui;
+    font-weight: bold;
+    width: 100%;
+}
+
+button {
+    margin: 3px 5px 0 5px;
+    padding: 10px 15px;
+    background-color: #afafaf;
+    border: 1px solid #2e4252;
+    color: white;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.button_container {
+    background-color: #7c7c7c;
+    position: absolute;
+    bottom: 0;
+    height: 48px;
+    width: 100%;
+    margin-left: -5px;
+}
+
+.desc {
+    position: absolute;
+    right: 5px;
+}
+
+body {
+    font-family: sans-serif;
+    background: #565c67;
+    color: #fff;
+    margin: 0 0 0 5px;
+}
+
+input, button, textarea, :focus {
+    outline: none;
+}
+
+img {
+    height: calc(32px * 5);
+    width: calc(32px * 5);
+    position: absolute;
+    left: 15px;
+    top: 50px;
+}
+
+#welcome {
+    padding-top: 18px;
+}
