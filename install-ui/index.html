@@ -12,7 +12,11 @@
     const $ = require("jquery");
 
     function next() {
-        ipc.send("invokeAction", "next");
+        location.replace("location.html");
+    }
+
+    function cancel() {
+        ipc.send("cancel");
     }
 
     $(window).blur(() => {
@@ -36,7 +40,8 @@
     Please press Continue if you would like to install.<br>
 </section>
 <div class="button_container">
-    <button id="next" onclick="next();">Continue</button>
+    <button id="next" onclick="next()">Continue</button>
+    <button id="cancel" onclick="cancel();">Cancel</button>
 </div>
 </body>
 </html>

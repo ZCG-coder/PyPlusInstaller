@@ -7,16 +7,8 @@ const Menu = electron.Menu;
 
 const isMac = os.platform() === "darwin";
 
-const template = [
-    {
-        label: "Install PyPlus",
-        submenu: [
-            {role: "quit"}
-        ]
-    }
-];
 
-function createMenu() {
+function createMenu(template) {
     let menu;
     if (isMac) {
         menu = Menu.buildFromTemplate(template);
@@ -27,24 +19,35 @@ function createMenu() {
 
 }
 
-async function openSel(window) {
-    const folder = await electron.dialog.showOpenDialog(window, {properties: ["openDirectory"]});
-
-    if (folder.canceled) {
-        const res = await electron.dialog.showMessageBox(window, {
-            message: "Retry Select Install Directory?",
-            type: "question",
-            buttons: ["Yes", "No"]
-        });
-        if (res.response === 1) {
-            process.exit(1);
-        } else {
-            await openSel(window);
-        }
-    }
-}
-
 function createWindow() {
+    // noinspection JSUnusedGlobalSymbols
+    const menuTemplate = [
+            {
+                label: "Install PyPlus",
+                submenu: [
+                    {
+                        label: "Quit",
+                        click() {
+                            process.exit(1);
+                        },
+                        accelerator: "CmdOrCtrl+q"
+                    },
+                    {
+                        label: "Reload",
+                        click() {
+                            win.reload();
+                        }
+                    },
+                    {
+                        label: "DevTools",
+                        click() {
+                            win.openDevTools();
+                        }
+                    }
+                ]
+            }
+        ]
+    ;
     const win = new BrowserWindow({
         width: 667, height: 271,
         webPreferences: {
@@ -54,10 +57,9 @@ function createWindow() {
         frame: false,
         resizable: true
     });
-    createMenu();
+    createMenu(menuTemplate);
     win.loadFile(path.join(__dirname, "install-ui/index.html")).then();
 
-    win.openDevTools();
     win.show();
     win.focus();
 
@@ -65,8 +67,8 @@ function createWindow() {
         win.focus();
     };
 
-    ipc.on("invokeAction", function () {
-        const _ = openSel();
+    ipc.on("cancel", async function () {
+        process.exit(0);
     });
 }
 

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Select Location</title>
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+<div class="title_bar">Select Directory</div>
+<img alt="Logo" src="logo.gif">
+<script>
+    const $ = require("jquery");
+    const os = require("os");
+    const fs = require("fs");
+    const ipc = require("electron").ipcRenderer;
+
+    function cancel() {
+        ipc.send("cancel");
+    }
+
+    function prev() {
+        location.replace("index.html");
+    }
+
+    function useHome() {
+        $("#path").prop("value", os.homedir());
+    }
+
+    let dirWriteable = false;
+
+    function writable(directory) {
+        fs.access(directory, fs.constants.W_OK, function (err) {
+            if (err) {
+                dirWriteable = false;
+            }
+
+            dirWriteable = true;
+        });
+    }
+
+    function isEmpty(path) {
+        return fs.readdirSync(path).length === 0;
+    }
+
+    function checkPath() {
+        const directory = $("#path").val();
+        let empty;
+        try {
+            empty = isEmpty(directory);
+        } catch (error) {
+            $("#error").html("Error, this directory doesn't exist.");
+            return;
+        }
+        writable(directory);
+        if (!empty || !directory) {
+            $("#error").html("Error, this directory is not writable or not empty.<br>Please use another one.");
+        }
+    }
+
+    $(() => {
+        $("#path").keyup(() => {
+            checkPath();
+        });
+    });
+</script>
+<section class="desc">
+    <h1 id="welcome">Please Select the Path to Install PyPlus</h1>
+    <div id="pathSel">
+        <label>
+            Path: (Must be empty and exists)<br>
+            <input id="path" type="text">
+        </label>
+        <button id="browse">Browse...</button>
+    </div>
+    <p id="error"></p>
+</section>
+<div class="button_container">
+    <button onclick="cancel();">Cancel</button>
+    <button onclick="checkPath();">Continue</button>
+    <button onclick="prev();">Previous</button>
+    <button onclick="useHome();" style="float: left !important;">User Home</button>
+</div>
+</body>
+</html>
